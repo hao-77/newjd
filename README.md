@@ -1,12 +1,12 @@
-# 金盾卫士
+# newjd · 金盾卫士
 
-基于 Vue 3 + Vite + Element Plus 的多模态金融反欺诈前端平台。
+新版金盾 — 基于 Vue 3 + Vite + Element Plus 的多模态金融反欺诈前端平台。
 
 ## 功能
 
 - 蓝色主题首页，顶部栏 + 侧边栏布局
 - 用户登录 / 验证码登录 / 注册
-- 金盾卫士智能助手（浮动对话，对接 `/session` 与 `/api/ai/predict`）
+- 金盾卫士智能助手（全屏对话、历史记录、咨询偏好）
 - 交易欺诈检测、文本/链接检测、图片分析、语音克隆检测
 - 个人中心、投诉反馈
 
@@ -14,6 +14,7 @@
 
 ```bash
 npm install
+cp .env.example .env
 npm run dev
 ```
 
