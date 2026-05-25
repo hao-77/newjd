@@ -1,0 +1,41 @@
+:root {
+  --jd-primary: #1565c0;
+  --jd-primary-light: #1976d2;
+  --jd-primary-dark: #0d47a1;
+  --jd-accent: #42a5f5;
+  --jd-bg: #f0f6fc;
+  --jd-sidebar: #0d47a1;
+  --jd-header: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
+  --jd-text: #1a237e;
+  --jd-shadow: 0 4px 20px rgba(21, 101, 192, 0.15);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  color: #333;
+  background: var(--jd-bg);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #90caf9;
+  border-radius: 3px;
+}
