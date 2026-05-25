@@ -6,6 +6,9 @@
         <h2>金盾卫士小助手</h2>
         <p>登录后即可使用个性化反诈咨询、历史对话与偏好设置</p>
         <el-button type="primary" size="large" round @click="router.push('/login')">立即登录</el-button>
+      <el-button v-if="auth.isDev" type="warning" plain size="large" round @click="devSkipAndEnter">
+        跳过登录（开发）
+      </el-button>
       </div>
     </div>
 
@@ -270,6 +273,11 @@ function setRisk(r: RiskProfile) {
 function setEmotion(e: EmotionalStyle) {
   assistantStore.preferences.emotionalStyle = e
   onPreferencesChange()
+}
+
+function devSkipAndEnter() {
+  auth.skipLoginForDev()
+  init()
 }
 
 onMounted(() => {

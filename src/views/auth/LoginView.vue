@@ -22,6 +22,9 @@
                 size="large"
                 show-password
               />
+              <div class="forgot-link">
+                <router-link to="/forgot-password">忘记密码？</router-link>
+              </div>
             </el-form-item>
             <el-button type="primary" size="large" class="submit-btn" :loading="loading" native-type="submit">
               登录
@@ -51,6 +54,14 @@
 
       <div class="auth-footer">
         还没有账号？<router-link to="/register">立即注册</router-link>
+      </div>
+
+      <div v-if="auth.isDev" class="dev-skip">
+        <el-divider>开发调试</el-divider>
+        <el-button type="warning" plain size="large" class="dev-skip-btn" @click="handleDevSkip">
+          跳过登录（仅开发环境）
+        </el-button>
+        <p class="dev-skip-tip">使用本地模拟账号进入系统，接口仍可能需真实 token</p>
       </div>
     </div>
   </div>
@@ -139,6 +150,12 @@ async function handleCodeLogin() {
     loading.value = false
   }
 }
+
+function handleDevSkip() {
+  auth.skipLoginForDev()
+  ElMessage.warning('已进入开发跳过登录模式')
+  router.push((route.query.redirect as string) || '/')
+}
 </script>
 
 <style scoped>
@@ -195,6 +212,17 @@ async function handleCodeLogin() {
   flex: 1;
 }
 
+.forgot-link {
+  width: 100%;
+  text-align: right;
+  margin-top: 6px;
+}
+
+.forgot-link a {
+  font-size: 13px;
+  color: var(--jd-primary);
+}
+
 .auth-footer {
   text-align: center;
   margin-top: 24px;
@@ -205,5 +233,21 @@ async function handleCodeLogin() {
 .auth-footer a {
   color: var(--jd-primary);
   font-weight: 500;
+}
+
+.dev-skip {
+  margin-top: 8px;
+}
+
+.dev-skip-btn {
+  width: 100%;
+}
+
+.dev-skip-tip {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #94a3b8;
+  text-align: center;
+  line-height: 1.5;
 }
 </style>

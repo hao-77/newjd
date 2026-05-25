@@ -8,6 +8,7 @@
       </div>
     </div>
     <div class="header-right">
+      <el-tag v-if="auth.devSkipLogin" type="warning" size="small" class="dev-tag">开发跳过登录</el-tag>
       <template v-if="auth.isLoggedIn">
         <el-dropdown trigger="click">
           <div class="user-info">
@@ -105,5 +106,9 @@ async function handleLogout() {
 
 .username {
   font-size: 14px;
+}
+
+.dev-tag {
+  margin-right: 4px;
 }
 </style>

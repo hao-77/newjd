@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -13,6 +14,12 @@ const router = createRouter({
       path: '/register',
       name: 'Register',
       component: () => import('@/views/auth/RegisterView.vue'),
+      meta: { guest: true },
+    },
+    {
+      path: '/forgot-password',
+      name: 'ForgotPassword',
+      component: () => import('@/views/auth/ForgotPasswordView.vue'),
       meta: { guest: true },
     },
     {
@@ -71,10 +78,12 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _from, next) => {
-  const token = localStorage.getItem('token')
-  if (to.meta.requiresAuth && !token) {
+  const auth = useAuthStore()
+  const loggedIn = auth.isLoggedIn
+
+  if (to.meta.requiresAuth && !loggedIn) {
     next({ name: 'Login', query: { redirect: to.fullPath } })
-  } else if (to.meta.guest && token) {
+  } else if (to.meta.guest && loggedIn) {
     next({ name: 'Home' })
   } else {
     next()
