@@ -91,6 +91,8 @@ async function handleLogout() {
 .admin-main {
   flex: 1;
   padding: 24px;
+  display:flex;
+  justify-content:center;
 }
 
 .auth-wall {
