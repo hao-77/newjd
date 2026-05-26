@@ -5,7 +5,7 @@
         <div class="card-header">
           <div>
             <h2 class="card-title">用户管理</h2>
-            <p class="card-sub">内部管理 · 请通过 /admin/users 访问，客户侧无入口</p>
+            <p class="card-sub">用户列表 · 对接 /admin 接口</p>
           </div>
           <div class="header-actions">
             <el-button type="primary" :icon="Plus" @click="openAdd">添加用户</el-button>
