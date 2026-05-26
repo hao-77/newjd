@@ -54,3 +54,20 @@ export interface Detect2Request {
   content_type: string
   is_url: boolean
 }
+
+/** 管理端用户信息 */
+export interface AdminUser {
+  userId: string
+  userName?: string
+  username?: string
+  email?: string
+  phone?: string
+  signature?: string
+  gender?: number
+  status?: number
+  password?: string
+  createdAt?: string
+  updatedAt?: string
+  avatar?: string
+  avatarUrl?: string
+}

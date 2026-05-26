@@ -34,6 +34,10 @@
         <el-icon><User /></el-icon>
         <span>个人中心</span>
       </el-menu-item>
+      <el-menu-item index="/admin/users" v-if="auth.isLoggedIn" class="admin-menu-item">
+        <el-icon><Setting /></el-icon>
+        <span>管理端</span>
+      </el-menu-item>
     </el-menu>
     <div class="collapse-btn" @click="collapsed = !collapsed">
       <el-icon><component :is="collapsed ? 'Expand' : 'Fold'" /></el-icon>
@@ -94,5 +98,9 @@ const activeMenu = computed(() => route.path)
 
 :deep(.assistant-menu-item.is-active) {
   background: rgba(66, 165, 245, 0.35) !important;
+}
+
+:deep(.admin-menu-item.is-active) {
+  background: rgba(255, 193, 7, 0.25) !important;
 }
 </style>

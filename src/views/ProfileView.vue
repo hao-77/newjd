@@ -28,6 +28,15 @@
           <p class="avatar-tip">支持 JPG、PNG、GIF、WebP，大小不超过 2MB</p>
         </section>
 
+        <el-alert
+          class="safety-tip"
+          type="info"
+          :closable="false"
+          show-icon
+          title="隐蔽求助（特殊人群）"
+          description="在任意页面非输入状态下，2秒内连续按三次空格键，可静默触发紧急求助并联系 110 / 120 / 96110。"
+        />
+
         <el-divider />
 
         <el-form :model="form" label-width="100px">
@@ -207,5 +216,9 @@ onMounted(loadProfile)
   margin-top: 12px;
   font-size: 12px;
   color: #94a3b8;
+}
+
+.safety-tip {
+  margin-bottom: 8px;
 }
 </style>
