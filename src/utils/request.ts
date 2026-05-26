@@ -51,4 +51,5 @@ const request = {
   },
 }
 
+export { axiosInstance }
 export default request

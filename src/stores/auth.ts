@@ -96,6 +96,12 @@ export const useAuthStore = defineStore('auth', () => {
     return res
   }
 
+  function updateLocalAvatar(avatarUrl: string) {
+    if (!user.value) return
+    user.value = { ...user.value, avatar: avatarUrl, avatarUrl }
+    localStorage.setItem('user', JSON.stringify(user.value))
+  }
+
   restore()
 
   return {
@@ -111,5 +117,6 @@ export const useAuthStore = defineStore('auth', () => {
     doLoginByCode,
     doRegister,
     fetchUserInfo,
+    updateLocalAvatar,
   }
 })

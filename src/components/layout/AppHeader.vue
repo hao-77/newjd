@@ -12,7 +12,7 @@
       <template v-if="auth.isLoggedIn">
         <el-dropdown trigger="click">
           <div class="user-info">
-            <el-avatar :size="36" :src="auth.user?.avatar">
+            <el-avatar :size="36" :src="auth.user?.avatar || auth.user?.avatarUrl">
               {{ auth.user?.userName?.charAt(0) || 'U' }}
             </el-avatar>
             <span class="username">{{ auth.user?.userName || '用户' }}</span>
