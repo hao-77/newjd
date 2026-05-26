@@ -72,11 +72,22 @@ const router = createRouter({
           component: () => import('@/views/ComplaintView.vue'),
           meta: { requiresAuth: true },
         },
+      ],
+    },
+    /** 管理后台：独立布局，侧边栏无入口，仅通过 /admin/users 直接访问 */
+    {
+      path: '/admin',
+      component: () => import('@/layouts/AdminLayout.vue'),
+      meta: { requiresAuth: true, admin: true },
+      children: [
         {
-          path: 'admin/users',
+          path: '',
+          redirect: '/admin/users',
+        },
+        {
+          path: 'users',
           name: 'AdminUsers',
           component: () => import('@/views/admin/AdminUsersView.vue'),
-          meta: { requiresAuth: true, admin: true },
         },
       ],
     },

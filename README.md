@@ -29,6 +29,14 @@ npm run dev
 
 请求头自动携带 `token`（登录后保存在 localStorage）。
 
+## 管理后台（内部）
+
+不对客户展示入口，登录管理员账号后浏览器直接访问：
+
+```
+http://localhost:5173/admin/users
+```
+
 ## 构建
 
 ```bash

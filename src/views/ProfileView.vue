@@ -221,4 +221,8 @@ onMounted(loadProfile)
 .safety-tip {
   margin-bottom: 8px;
 }
+.profile-page{
+  display:flex;
+  justify-content: center;
+}
 </style>
