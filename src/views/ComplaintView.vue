@@ -82,6 +82,7 @@ onMounted(loadList)
 <style scoped>
 .page-card {
   border-radius: 12px;
+  min-width:890px;
 }
 
 .card-title {

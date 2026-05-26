@@ -60,8 +60,8 @@ async function detect() {
 <style scoped>
 .page-card {
   border-radius: 12px;
-}
-.card-header {
+  min-width:890px;
+}.card-header {
   display: flex;
   align-items: center;
   gap: 12px;

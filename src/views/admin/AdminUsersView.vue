@@ -296,8 +296,8 @@ onMounted(loadUsers)
 
 .page-card {
   border-radius: 12px;
+  min-width:890px;
 }
-
 .card-header {
   display: flex;
   justify-content: space-between;
