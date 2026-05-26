@@ -1,13 +1,12 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import { login, loginByCode, register, getUserInfo } from '@/api/user'
-import type { LoginData, UserInfo } from '@/types/api'
 import { isDev } from '@/config/dev'
 
 const DEV_SKIP_KEY = 'dev_skip_login'
 const DEV_TOKEN = 'dev-local-skip-token'
 
-const devMockUser: UserInfo = {
+const devMockUser = {
   userId: 'dev-001',
   userName: '开发测试用户',
   email: 'dev@test.local',
@@ -16,12 +15,12 @@ const devMockUser: UserInfo = {
 
 export const useAuthStore = defineStore('auth', () => {
   const token = ref(localStorage.getItem('token') || '')
-  const user = ref<UserInfo | null>(null)
+  const user = ref(null)
   const devSkipLogin = ref(isDev && localStorage.getItem(DEV_SKIP_KEY) === '1')
 
   const isLoggedIn = computed(() => !!token.value || devSkipLogin.value)
 
-  function setAuth(data: LoginData) {
+  function setAuth(data) {
     token.value = data.token
     localStorage.setItem('token', data.token)
     user.value = {
@@ -31,6 +30,7 @@ export const useAuthStore = defineStore('auth', () => {
       gender: data.gender,
       status: data.status,
       avatar: data.avatar,
+      avatarUrl: data.avatarUrl,
     }
     localStorage.setItem('user', JSON.stringify(user.value))
   }
@@ -44,7 +44,6 @@ export const useAuthStore = defineStore('auth', () => {
     localStorage.removeItem(DEV_SKIP_KEY)
   }
 
-  /** 仅开发环境：跳过登录，使用本地模拟账号 */
   function skipLoginForDev() {
     if (!isDev) return
     devSkipLogin.value = true
@@ -71,32 +70,32 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  async function doLogin(email: string, password: string) {
+  async function doLogin(email, password) {
     const res = await login({ email, password })
-    if (res.data) setAuth(res.data)
+    if (res?.data) setAuth(res.data)
     return res
   }
 
-  async function doLoginByCode(email: string, code: string) {
+  async function doLoginByCode(email, code) {
     const res = await loginByCode({ email, code })
-    if (res.data) setAuth(res.data)
+    if (res?.data) setAuth(res.data)
     return res
   }
 
-  async function doRegister(email: string, password: string, code: string) {
+  async function doRegister(email, password, code) {
     return register({ email, password, code })
   }
 
   async function fetchUserInfo() {
     const res = await getUserInfo()
-    if (res.data) {
+    if (res?.data) {
       user.value = { ...user.value, ...res.data }
       localStorage.setItem('user', JSON.stringify(user.value))
     }
     return res
   }
 
-  function updateLocalAvatar(avatarUrl: string) {
+  function updateLocalAvatar(avatarUrl) {
     if (!user.value) return
     user.value = { ...user.value, avatar: avatarUrl, avatarUrl }
     localStorage.setItem('user', JSON.stringify(user.value))
@@ -120,3 +119,4 @@ export const useAuthStore = defineStore('auth', () => {
     updateLocalAvatar,
   }
 })
+

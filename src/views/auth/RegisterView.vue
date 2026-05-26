@@ -39,10 +39,10 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { useAuthStore } from '@/stores/auth'
 import { getCode } from '@/api/user'
 
@@ -51,10 +51,10 @@ const auth = useAuthStore()
 
 const loading = ref(false)
 const countdown = ref(0)
-const formRef = ref<FormInstance>()
+const formRef = ref()
 const form = reactive({ email: '', password: '', code: '' })
 
-const rules: FormRules = {
+const rules = {
   email: [
     { required: true, message: '请输入邮箱', trigger: 'blur' },
     { type: 'email', message: '邮箱格式不正确', trigger: 'blur' },

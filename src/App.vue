@@ -7,7 +7,7 @@
   />
 </template>
 
-<script setup lang="ts">
+<script setup>
 import EmergencyAlertOverlay from '@/components/emergency/EmergencyAlertOverlay.vue'
 import { useEmergencyAlert } from '@/composables/useEmergencyAlert'
 

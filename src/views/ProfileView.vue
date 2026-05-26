@@ -69,9 +69,9 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { reactive, ref, computed, onMounted } from 'vue'
-import { ElMessage, type UploadRequestOptions } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { useAuthStore } from '@/stores/auth'
 import { updateUser, uploadAndUpdateAvatar } from '@/api/user'
 
@@ -92,7 +92,7 @@ const avatarDisplay = computed(
   () => auth.user?.avatar || auth.user?.avatarUrl || '',
 )
 
-function beforeAvatarUpload(file: File) {
+function beforeAvatarUpload(file) {
   const isImage = /^image\/(jpeg|png|gif|webp)$/i.test(file.type)
   const isLt2M = file.size / 1024 / 1024 < 2
 
@@ -107,8 +107,8 @@ function beforeAvatarUpload(file: File) {
   return true
 }
 
-async function handleAvatarUpload(options: UploadRequestOptions) {
-  const file = options.file as File
+async function handleAvatarUpload(options) {
+  const file = options.file
   if (auth.devSkipLogin) {
     ElMessage.warning('开发跳过登录模式下无法上传头像，请使用真实账号登录')
     return

@@ -218,7 +218,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { Plus } from '@element-plus/icons-vue'
@@ -229,15 +229,12 @@ import {
   CONSULT_TOPICS,
   RISK_PROFILES,
   EMOTIONAL_STYLES,
-  type ConsultTopic,
-  type RiskProfile,
-  type EmotionalStyle,
 } from '@/types/assistant'
 
 const router = useRouter()
 const auth = useAuthStore()
 const assistantStore = useAssistantStore()
-const messagesRef = ref<HTMLElement>()
+const messagesRef = ref()
 
 const {
   loading,
@@ -254,23 +251,23 @@ const {
   formatSessionTime,
 } = useAssistantChat(messagesRef)
 
-const riskDesc: Record<RiskProfile, string> = {
+const riskDesc = {
   保守型: '优先保本，强调资金安全与核实',
   稳健型: '平衡收益与风险，理性分析',
   进取型: '关注收益机会，同时提示高风险骗局',
 }
 
-function setTopic(t: ConsultTopic) {
+function setTopic(t) {
   assistantStore.preferences.consultTopic = t
   onPreferencesChange()
 }
 
-function setRisk(r: RiskProfile) {
+function setRisk(r) {
   assistantStore.preferences.riskProfile = r
   onPreferencesChange()
 }
 
-function setEmotion(e: EmotionalStyle) {
+function setEmotion(e) {
   assistantStore.preferences.emotionalStyle = e
   onPreferencesChange()
 }

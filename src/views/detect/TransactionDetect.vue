@@ -61,7 +61,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { reactive, ref, computed } from 'vue'
 import { detectTransaction } from '@/api/ai'
 

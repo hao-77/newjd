@@ -11,7 +11,7 @@ export function useEmergencyAlert() {
   let spaceCount = 0
   let lastSpaceAt = 0
 
-  function isEditableTarget(target: EventTarget | null) {
+  function isEditableTarget(target) {
     if (!target || !(target instanceof HTMLElement)) return false
     const tag = target.tagName
     if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return true
@@ -40,9 +40,7 @@ export function useEmergencyAlert() {
   }
 
   function vibrate() {
-    if (navigator.vibrate) {
-      navigator.vibrate([200, 100, 200, 100, 400])
-    }
+    if (navigator.vibrate) navigator.vibrate([200, 100, 200, 100, 400])
   }
 
   async function triggerEmergency() {
@@ -60,22 +58,21 @@ export function useEmergencyAlert() {
           `[紧急求助-三连空格触发] 用户 ${userLabel} 于 ${new Date().toLocaleString('zh-CN')} 触发隐蔽报警，请立即关注。`,
         )
       } catch {
-        /* 报警 UI 仍展示 */
+        /* ignore */
       }
     }
+
     triggering.value = false
   }
 
-  function onKeyDown(e: KeyboardEvent) {
+  function onKeyDown(e) {
     if (e.code !== 'Space' && e.key !== ' ') return
     if (isEditableTarget(e.target)) return
     if (e.repeat) return
 
     const now = Date.now()
-    if (now - lastSpaceAt > SPACE_WINDOW_MS) {
-      spaceCount = 0
-    }
-    spaceCount++
+    if (now - lastSpaceAt > SPACE_WINDOW_MS) spaceCount = 0
+    spaceCount += 1
     lastSpaceAt = now
 
     if (spaceCount >= SPACE_TRIGGER_COUNT) {
@@ -90,7 +87,7 @@ export function useEmergencyAlert() {
     visible.value = false
   }
 
-  function callHotline(tel: string) {
+  function callHotline(tel) {
     window.open(`tel:${tel}`, '_self')
   }
 
@@ -102,10 +99,6 @@ export function useEmergencyAlert() {
     window.removeEventListener('keydown', onKeyDown, true)
   })
 
-  return {
-    visible,
-    triggering,
-    closeAlert,
-    callHotline,
-  }
+  return { visible, triggering, closeAlert, callHotline }
 }
+

@@ -66,16 +66,16 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { changePassword, getCode } from '@/api/user'
 
 const router = useRouter()
 const loading = ref(false)
 const countdown = ref(0)
-const formRef = ref<FormInstance>()
+const formRef = ref()
 
 const form = reactive({
   email: '',
@@ -85,7 +85,7 @@ const form = reactive({
   code: '',
 })
 
-const validateConfirm = (_rule: unknown, value: string, callback: (err?: Error) => void) => {
+const validateConfirm = (_rule, value, callback) => {
   if (value !== form.newPassword) {
     callback(new Error('两次输入的新密码不一致'))
   } else {
@@ -93,7 +93,7 @@ const validateConfirm = (_rule: unknown, value: string, callback: (err?: Error) 
   }
 }
 
-const rules: FormRules = {
+const rules = {
   email: [
     { required: true, message: '请输入邮箱', trigger: 'blur' },
     { type: 'email', message: '邮箱格式不正确', trigger: 'blur' },

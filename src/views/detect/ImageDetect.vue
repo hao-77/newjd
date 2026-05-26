@@ -28,17 +28,16 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
-import type { UploadFile } from 'element-plus'
 import { detectImage } from '@/api/ai'
 
-const file = ref<File | null>(null)
+const file = ref(null)
 const preview = ref('')
 const loading = ref(false)
 const result = ref('')
 
-function onFileChange(uploadFile: UploadFile) {
+function onFileChange(uploadFile) {
   const raw = uploadFile.raw
   if (!raw) return
   file.value = raw

@@ -113,22 +113,21 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive, onMounted } from 'vue'
 import { Plus, Refresh } from '@element-plus/icons-vue'
-import { ElMessage, ElMessageBox, type FormInstance, type FormRules } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { getAdminUsers, adminUpdateUser, adminAddUser, adminDeleteUsers } from '@/api/admin'
-import type { AdminUser } from '@/types/api'
 
 const loading = ref(false)
 const saving = ref(false)
-const users = ref<AdminUser[]>([])
-const selectedIds = ref<string[]>([])
+const users = ref([])
+const selectedIds = ref([])
 
 const editVisible = ref(false)
 const addVisible = ref(false)
-const editFormRef = ref<FormInstance>()
-const addFormRef = ref<FormInstance>()
+const editFormRef = ref()
+const addFormRef = ref()
 
 const editForm = reactive({
   userId: '',
@@ -147,12 +146,12 @@ const addForm = reactive({
   password: '',
 })
 
-const editRules: FormRules = {
+const editRules = {
   userName: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
   email: [{ type: 'email', message: '邮箱格式不正确', trigger: 'blur' }],
 }
 
-const addRules: FormRules = {
+const addRules = {
   username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
   email: [
     { required: true, message: '请输入邮箱', trigger: 'blur' },
@@ -164,33 +163,33 @@ const addRules: FormRules = {
   ],
 }
 
-function genderLabel(g?: number) {
+function genderLabel(g) {
   if (g === 0) return '男'
   if (g === 1) return '女'
   return '保密'
 }
 
-function statusLabel(s?: number) {
+function statusLabel(s) {
   if (s === 1) return '正常'
   if (s === 2) return '封禁'
   if (s === 3) return '注销'
   return '未知'
 }
 
-function statusTagType(s?: number) {
+function statusTagType(s) {
   if (s === 1) return 'success'
   if (s === 2) return 'danger'
   if (s === 3) return 'info'
   return 'warning'
 }
 
-function normalizeUsers(data: unknown): AdminUser[] {
-  if (Array.isArray(data)) return data as AdminUser[]
+function normalizeUsers(data) {
+  if (Array.isArray(data)) return data
   if (data && typeof data === 'object') {
-    const d = data as Record<string, unknown>
-    if (Array.isArray(d.list)) return d.list as AdminUser[]
-    if (Array.isArray(d.records)) return d.records as AdminUser[]
-    return [data as AdminUser]
+    const d = data
+    if (Array.isArray(d.list)) return d.list
+    if (Array.isArray(d.records)) return d.records
+    return [data]
   }
   return []
 }
@@ -205,11 +204,11 @@ async function loadUsers() {
   }
 }
 
-function onSelectionChange(rows: AdminUser[]) {
+function onSelectionChange(rows) {
   selectedIds.value = rows.map((r) => r.userId).filter(Boolean)
 }
 
-function openEdit(row: AdminUser) {
+function openEdit(row) {
   Object.assign(editForm, {
     userId: row.userId,
     userName: row.userName || row.username || '',
@@ -228,7 +227,7 @@ async function saveEdit() {
   if (!valid) return
   saving.value = true
   try {
-    const payload: Partial<AdminUser> = {
+    const payload = {
       userId: editForm.userId,
       userName: editForm.userName,
       email: editForm.email,
@@ -268,7 +267,7 @@ async function saveAdd() {
   }
 }
 
-async function removeOne(row: AdminUser) {
+async function removeOne(row) {
   await ElMessageBox.confirm(`确定删除用户 ${row.userName || row.userId}？`, '删除确认', {
     type: 'warning',
   })

@@ -3,10 +3,8 @@ import { ElMessage } from 'element-plus'
 import { useAuthStore } from '@/stores/auth'
 import { useAssistantStore } from '@/stores/assistant'
 import { createSession, getSessions, getSessionHistory, aiPredict } from '@/api/ai'
-import type { ChatMessage } from '@/types/api'
-import type { SessionRecord } from '@/types/assistant'
 
-export function useAssistantChat(messagesRef?: { value: HTMLElement | undefined }) {
+export function useAssistantChat(messagesRef) {
   const auth = useAuthStore()
   const assistantStore = useAssistantStore()
 
@@ -14,11 +12,11 @@ export function useAssistantChat(messagesRef?: { value: HTMLElement | undefined 
   const sessionsLoading = ref(false)
   const inputText = ref('')
   const sessionId = ref('')
-  const messages = ref<ChatMessage[]>([])
+  const messages = ref([])
 
   const quickTags = computed(() => {
     const topic = assistantStore.preferences.consultTopic
-    const map: Record<string, string[]> = {
+    const map = {
       信用卡: ['信用卡提额诈骗如何识别？', '被盗刷后该怎么办？', '伪冒客服换卡套路'],
       理财: ['高收益理财骗局特征', '虚假投资平台如何分辨', '熟人推荐理财靠谱吗'],
       贷款: ['无抵押贷款诈骗套路', 'AB贷骗局是什么', '提前缴费放款是诈骗吗'],
@@ -27,7 +25,7 @@ export function useAssistantChat(messagesRef?: { value: HTMLElement | undefined 
     return map[topic] || ['什么是杀猪盘？', '如何识别语音克隆？', '转账前如何自查？']
   })
 
-  function buildWelcome(): ChatMessage {
+  function buildWelcome() {
     const p = assistantStore.preferences
     return {
       role: 'assistant',
@@ -48,7 +46,7 @@ export function useAssistantChat(messagesRef?: { value: HTMLElement | undefined 
     try {
       const res = await getSessions()
       const list = Array.isArray(res.data) ? res.data : []
-      const records: SessionRecord[] = list.map((s) => ({
+      const records = list.map((s) => ({
         sessionId: String(s.sessionId),
         sessionName: s.sessionName,
         createTime: s.createTime,
@@ -67,7 +65,7 @@ export function useAssistantChat(messagesRef?: { value: HTMLElement | undefined 
     }
   }
 
-  async function selectSession(id: string) {
+  async function selectSession(id) {
     if (sessionId.value === id) return
     sessionId.value = id
     assistantStore.currentSessionId = id
@@ -91,8 +89,8 @@ export function useAssistantChat(messagesRef?: { value: HTMLElement | undefined 
     const title = assistantStore.buildSessionTitle()
     try {
       const res = await createSession(title)
-      const data = res.data as { sessionId?: string }
-      const id = data?.sessionId ? String(data.sessionId) : String(res.data || '')
+      const data = res.data || {}
+      const id = data.sessionId ? String(data.sessionId) : String(res.data || '')
       sessionId.value = id || 'local-' + Date.now()
     } catch {
       sessionId.value = 'local-' + Date.now()
@@ -105,21 +103,22 @@ export function useAssistantChat(messagesRef?: { value: HTMLElement | undefined 
     ElMessage.success('已创建新对话')
   }
 
+  function stripContextPrefix(content) {
+    const idx = content.indexOf('【用户提问】')
+    return idx >= 0 ? content.slice(idx + 6).trim() : content
+  }
+
   async function loadHistory() {
     if (!sessionId.value || sessionId.value.startsWith('local-')) return
     try {
       const res = await getSessionHistory(sessionId.value)
       const history = res.data
       if (Array.isArray(history) && history.length > 0) {
-        const parsed = history.map(
-          (h: { role?: string; content?: string; message?: string; createTime?: string }) => ({
-            role: (h.role === 'assistant' || h.role === 'AI' ? 'assistant' : 'user') as
-              | 'user'
-              | 'assistant',
-            content: stripContextPrefix(h.content || h.message || ''),
-            time: h.createTime,
-          }),
-        )
+        const parsed = history.map((h) => ({
+          role: h.role === 'assistant' || h.role === 'AI' ? 'assistant' : 'user',
+          content: stripContextPrefix(h.content || h.message || ''),
+          time: h.createTime,
+        }))
         messages.value = [buildWelcome(), ...parsed]
       }
     } catch {
@@ -127,21 +126,15 @@ export function useAssistantChat(messagesRef?: { value: HTMLElement | undefined 
     }
   }
 
-  function stripContextPrefix(content: string) {
-    const idx = content.indexOf('【用户提问】')
-    return idx >= 0 ? content.slice(idx + 6).trim() : content
-  }
-
-  function parseReply(data: unknown): string {
+  function parseReply(data) {
     if (typeof data === 'string') return data
     if (data && typeof data === 'object') {
-      const d = data as Record<string, unknown>
-      return String(d.content || d.reply || d.answer || d.message || JSON.stringify(data))
+      return String(data.content || data.reply || data.answer || data.message || JSON.stringify(data))
     }
     return '已收到您的问题。如遇紧急诈骗请立即拨打 96110。'
   }
 
-  async function sendMessage(text?: string) {
+  async function sendMessage(text) {
     const raw = (text ?? inputText.value).trim()
     if (!raw || loading.value) return
 
@@ -153,15 +146,9 @@ export function useAssistantChat(messagesRef?: { value: HTMLElement | undefined 
 
     try {
       if (!sessionId.value) await newChat()
-
       const userId = auth.user?.userId || ''
       const payload = assistantStore.wrapUserContent(raw)
-      const res = await aiPredict({
-        userId,
-        sessionId: sessionId.value,
-        content: payload,
-      })
-
+      const res = await aiPredict({ userId, sessionId: sessionId.value, content: payload })
       const reply = parseReply(res.data)
       messages.value.push({ role: 'assistant', content: reply })
       assistantStore.saveSessionMeta(sessionId.value, assistantStore.preferences, reply.slice(0, 40))
@@ -180,13 +167,11 @@ export function useAssistantChat(messagesRef?: { value: HTMLElement | undefined 
 
   function onPreferencesChange() {
     messages.value = [buildWelcome()]
-    if (sessionId.value) {
-      assistantStore.saveSessionMeta(sessionId.value, assistantStore.preferences)
-    }
+    if (sessionId.value) assistantStore.saveSessionMeta(sessionId.value, assistantStore.preferences)
   }
 
-  function formatSessionTime(s: SessionRecord) {
-    const t = s.meta?.updatedAt || s.createTime
+  function formatSessionTime(s) {
+    const t = s?.meta?.updatedAt || s?.createTime
     if (!t) return ''
     try {
       const d = new Date(t)
@@ -207,7 +192,6 @@ export function useAssistantChat(messagesRef?: { value: HTMLElement | undefined 
     sessionId,
     messages,
     quickTags,
-    buildWelcome,
     init,
     newChat,
     selectSession,
@@ -218,3 +202,4 @@ export function useAssistantChat(messagesRef?: { value: HTMLElement | undefined 
     scrollBottom,
   }
 }
+

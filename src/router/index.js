@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+
 const router = createRouter({
   history: createWebHistory(),
   routes: [
@@ -24,16 +25,8 @@ const router = createRouter({
       path: '/',
       component: () => import('@/layouts/MainLayout.vue'),
       children: [
-        {
-          path: '',
-          name: 'Home',
-          component: () => import('@/views/HomeView.vue'),
-        },
-        {
-          path: 'assistant',
-          name: 'Assistant',
-          component: () => import('@/views/AssistantView.vue'),
-        },
+        { path: '', name: 'Home', component: () => import('@/views/HomeView.vue') },
+        { path: 'assistant', name: 'Assistant', component: () => import('@/views/AssistantView.vue') },
         {
           path: 'detect/transaction',
           name: 'DetectTransaction',
@@ -72,21 +65,18 @@ const router = createRouter({
         },
       ],
     },
-    /** 管理后台：独立页面，侧边栏无入口，直接访问 /admin/users */
+    // 管理后台：独立页面，侧边栏无入口，直接访问 /admin/users
     {
       path: '/admin/users',
       name: 'AdminUsers',
       component: () => import('@/views/admin/AdminUsersPage.vue'),
       meta: { admin: true },
     },
-    {
-      path: '/admin',
-      redirect: '/admin/users',
-    },
+    { path: '/admin', redirect: '/admin/users' },
   ],
 })
 
-function checkLoggedIn(): boolean {
+function checkLoggedIn() {
   const token = localStorage.getItem('token')
   const devSkip = import.meta.env.DEV && localStorage.getItem('dev_skip_login') === '1'
   return !!token || devSkip
@@ -95,7 +85,7 @@ function checkLoggedIn(): boolean {
 router.beforeEach((to, _from, next) => {
   const loggedIn = checkLoggedIn()
 
-  // 管理端页面自行处理未登录展示，避免白屏重定向
+  // 管理端页面自行处理未登录展示，避免跳转导致误判白屏
   if (to.meta.admin) {
     next()
     return
@@ -111,3 +101,4 @@ router.beforeEach((to, _from, next) => {
 })
 
 export default router
+

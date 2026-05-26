@@ -32,7 +32,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { submitComplaint, getComplaints } from '@/api/ai'
@@ -40,12 +40,12 @@ import { submitComplaint, getComplaints } from '@/api/ai'
 const text = ref('')
 const loading = ref(false)
 const listLoading = ref(false)
-const complaints = ref<unknown[]>([])
+const complaints = ref([])
 
-function formatItem(item: unknown): string {
+function formatItem(item) {
   if (typeof item === 'string') return item
   if (item && typeof item === 'object' && 'text' in item) {
-    return String((item as { text: string }).text)
+    return String(item.text)
   }
   return JSON.stringify(item)
 }

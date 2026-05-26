@@ -67,10 +67,10 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { ref, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { useAuthStore } from '@/stores/auth'
 import { getCode } from '@/api/user'
 
@@ -81,13 +81,13 @@ const auth = useAuthStore()
 const loginType = ref('password')
 const loading = ref(false)
 const countdown = ref(0)
-const formRef = ref<FormInstance>()
-const codeFormRef = ref<FormInstance>()
+const formRef = ref()
+const codeFormRef = ref()
 
 const form = reactive({ email: '', password: '' })
 const codeForm = reactive({ email: '', code: '' })
 
-const rules: FormRules = {
+const rules = {
   email: [
     { required: true, message: '请输入邮箱', trigger: 'blur' },
     { type: 'email', message: '邮箱格式不正确', trigger: 'blur' },
@@ -98,7 +98,7 @@ const rules: FormRules = {
   ],
 }
 
-const codeRules: FormRules = {
+const codeRules = {
   email: [
     { required: true, message: '请输入邮箱', trigger: 'blur' },
     { type: 'email', message: '邮箱格式不正确', trigger: 'blur' },
@@ -106,7 +106,7 @@ const codeRules: FormRules = {
   code: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
 }
 
-async function sendCode(type: string) {
+async function sendCode(type) {
   const email = loginType.value === 'password' ? form.email : codeForm.email
   if (!email) {
     ElMessage.warning('请先输入邮箱')
@@ -132,7 +132,7 @@ async function handleLogin() {
   try {
     await auth.doLogin(form.email, form.password)
     ElMessage.success('登录成功')
-    router.push((route.query.redirect as string) || '/')
+    router.push(route.query.redirect || '/')
   } finally {
     loading.value = false
   }
@@ -145,7 +145,7 @@ async function handleCodeLogin() {
   try {
     await auth.doLoginByCode(codeForm.email, codeForm.code)
     ElMessage.success('登录成功')
-    router.push((route.query.redirect as string) || '/')
+    router.push(route.query.redirect || '/')
   } finally {
     loading.value = false
   }
@@ -154,7 +154,7 @@ async function handleCodeLogin() {
 function handleDevSkip() {
   auth.skipLoginForDev()
   ElMessage.warning('已进入开发跳过登录模式')
-  router.push((route.query.redirect as string) || '/')
+  router.push(route.query.redirect || '/')
 }
 </script>
 

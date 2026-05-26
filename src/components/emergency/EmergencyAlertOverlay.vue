@@ -32,12 +32,9 @@
   </teleport>
 </template>
 
-<script setup lang="ts">
-defineProps<{ visible: boolean }>()
-const emit = defineEmits<{
-  close: []
-  call: [tel: string]
-}>()
+<script setup>
+defineProps({ visible: Boolean })
+const emit = defineEmits(['close', 'call'])
 </script>
 
 <style scoped>
