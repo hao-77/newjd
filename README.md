@@ -31,11 +31,13 @@ npm run dev
 
 ## 管理后台（内部）
 
-不对客户展示入口，登录管理员账号后浏览器直接访问：
+不对客户展示入口，登录后浏览器直接访问（注意使用终端显示的端口，如 5178）：
 
 ```
-http://localhost:5173/admin/users
+http://localhost:5178/admin/users
 ```
+
+> 开发时若 `/admin/users` 出现 Spring Boot 白标错误页，说明请求被误代理到后端；已配置 Vite 对 HTML 请求返回 SPA，修改 `vite.config.ts` 后需**重启** `npm run dev`。
 
 ## 构建
 
