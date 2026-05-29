@@ -168,6 +168,39 @@ onMounted(loadProfile)
   font-weight: 600;
   color: var(--jd-primary-dark);
 }
+.complaint-page,
+.profile-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 64px);
+  padding: 40px 24px;
+}
+
+.page-card {
+  border-radius: 16px;
+  max-width: 640px;
+  width: 100%;
+  background: rgba(10, 10, 15, 0.5) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+}
+
+.complaint-item {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.avatar-tip,
+.safety-tip {
+  color: rgba(255, 255, 255, 0.6);
+}
 
 .profile-body {
   padding: 8px 0;

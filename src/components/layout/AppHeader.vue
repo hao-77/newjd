@@ -1,7 +1,7 @@
 <template>
   <header class="app-header">
     <div class="header-left">
-      <el-icon :size="28" color="#fff"><Lock /></el-icon>
+      <img src="/src/assets/logo.png" alt="金盾卫士" class="logo-icon">
       <div class="brand">
         <h1>金盾卫士</h1>
         <span>全链路金融防护平台</span>
@@ -56,19 +56,27 @@ async function handleLogout() {
 <style scoped>
 .app-header {
   height: 64px;
-  background: var(--jd-header);
+  background: rgba(10, 10, 15, 0.6);
+  backdrop-filter: blur(12px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
   box-shadow: var(--jd-shadow);
   z-index: 100;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .header-left {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+.logo-icon {
+  height: 36px;
+  width: auto;
+  display: block;
 }
 
 .brand h1 {

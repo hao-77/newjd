@@ -2,14 +2,13 @@
   <div class="auth-page">
     <div class="auth-card auth-card-wide">
       <div class="auth-header">
-        <el-icon :size="48" color="#1565c0"><Lock /></el-icon>
         <h1>忘记密码</h1>
-        <p>通过邮箱验证码重置您的登录密码</p>
+        <p class="subtitle">通过邮箱验证码重置您的登录密码</p>
       </div>
 
       <el-form ref="formRef" :model="form" :rules="rules" label-position="top" @submit.prevent="handleSubmit">
         <el-form-item label="注册邮箱" prop="email">
-          <el-input v-model="form.email" placeholder="请输入注册邮箱" prefix-icon="Message" size="large" />
+          <el-input v-model="form.email" placeholder="请输入注册邮箱" prefix-icon="Message" />
         </el-form-item>
 
         <el-form-item label="原密码" prop="oldPassword">
@@ -18,7 +17,6 @@
             type="password"
             placeholder="请输入当前/原密码"
             prefix-icon="Lock"
-            size="large"
             show-password
           />
         </el-form-item>
@@ -29,7 +27,6 @@
             type="password"
             placeholder="6-16位新密码"
             prefix-icon="Lock"
-            size="large"
             show-password
           />
         </el-form-item>
@@ -40,21 +37,20 @@
             type="password"
             placeholder="再次输入新密码"
             prefix-icon="Lock"
-            size="large"
             show-password
           />
         </el-form-item>
 
         <el-form-item label="邮箱验证码" prop="code">
           <div class="code-row">
-            <el-input v-model="form.code" placeholder="6位验证码" prefix-icon="Key" size="large" maxlength="6" />
+            <el-input v-model="form.code" placeholder="6位验证码" prefix-icon="Key" maxlength="6" />
             <el-button :disabled="countdown > 0" @click="sendVerifyCode">
               {{ countdown > 0 ? `${countdown}s` : '获取验证码' }}
             </el-button>
           </div>
         </el-form-item>
 
-        <el-button type="primary" size="large" class="submit-btn" :loading="loading" native-type="submit">
+        <el-button type="primary" class="submit-btn" :loading="loading" native-type="submit">
           确认重置密码
         </el-button>
       </el-form>
@@ -160,17 +156,18 @@ async function handleSubmit() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #e3f2fd 0%, #1565c0 100%);
+  background: transparent;
   padding: 24px;
 }
 
 .auth-card {
   width: 100%;
   max-width: 420px;
-  background: #fff;
-  border-radius: 16px;
-  padding: 40px;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+  background: rgba(10, 10, 15, 0.7);
+  backdrop-filter: blur(12px);
+  padding: 48px 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
 }
 
 .auth-card-wide {
@@ -179,34 +176,53 @@ async function handleSubmit() {
 
 .auth-header {
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 36px;
 }
 
-.auth-header h1 {
-  font-size: 26px;
-  color: var(--jd-primary-dark);
-  margin: 12px 0 4px;
+.auth-header h1,
+.auth-header .subtitle {
+  color: #fff;
 }
 
-.auth-header p {
-  color: #888;
-  font-size: 14px;
+.auth-header .subtitle {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.auth-footer {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.auth-footer a {
+  color: #c41e3a;
 }
 
 :deep(.el-form-item__label) {
-  font-weight: 600;
-  color: #37474f;
+  font-weight: 500;
+  color: var(--jd-text);
   padding-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 12px;
 }
 
 .submit-btn {
   width: 100%;
   margin-top: 8px;
+  background: var(--jd-primary);
+  border: none;
+  border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.submit-btn:hover {
+  background: var(--jd-primary-light);
 }
 
 .code-row {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   width: 100%;
 }
 
@@ -216,9 +232,9 @@ async function handleSubmit() {
 
 .auth-footer {
   text-align: center;
-  margin-top: 24px;
+  margin-top: 32px;
   font-size: 14px;
-  color: #666;
+  color: var(--jd-text-light);
 }
 
 .auth-footer a {

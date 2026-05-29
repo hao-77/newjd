@@ -39,10 +39,9 @@ const isAssistantPage = computed(() => route.path === '/assistant')
 .main-content {
   flex: 1;
   overflow-y: auto;
-  padding: 24px;
   background: var(--jd-bg);
-  display:flex;
-  justify-content:center;
+  display: flex;
+  justify-content: center;
 }
 
 .main-content.assistant-mode {

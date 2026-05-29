@@ -1,13 +1,15 @@
 :root {
-  --jd-primary: #1565c0;
-  --jd-primary-light: #1976d2;
-  --jd-primary-dark: #0d47a1;
-  --jd-accent: #42a5f5;
-  --jd-bg: #f0f6fc;
-  --jd-sidebar: #0d47a1;
-  --jd-header: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%);
-  --jd-text: #1a237e;
-  --jd-shadow: 0 4px 20px rgba(21, 101, 192, 0.15);
+  --jd-primary: #c41e3a;
+  --jd-primary-light: #d83a4f;
+  --jd-primary-dark: #8b1025;
+  --jd-accent: #1a1a1a;
+  --jd-bg: #0a0a0a;
+  --jd-sidebar: rgba(10, 10, 15, 0.6);
+  --jd-header: rgba(10, 10, 15, 0.6);
+  --jd-text: #ffffff;
+  --jd-text-light: rgba(255, 255, 255, 0.7);
+  --jd-border: rgba(255, 255, 255, 0.08);
+  --jd-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -21,8 +23,13 @@ body,
 #app {
   height: 100%;
   font-family: 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  color: #333;
-  background: var(--jd-bg);
+  color: #fff;
+  background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1920');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-color: #0a0a0a;
 }
 
 a {
@@ -36,6 +43,228 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #90caf9;
-  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.el-button--primary {
+  background-color: #c41e3a !important;
+  border-color: #c41e3a !important;
+}
+
+.el-button--primary:hover {
+  background-color: #d83a4f !important;
+  border-color: #d83a4f !important;
+}
+
+.el-button--primary:focus {
+  background-color: #c41e3a !important;
+  border-color: #c41e3a !important;
+}
+
+.el-card {
+  background: rgba(10, 10, 15, 0.6) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 16px !important;
+  color: #fff !important;
+  box-shadow: var(--jd-shadow) !important;
+}
+
+.el-card__header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+}
+
+.el-input__wrapper {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: none !important;
+  border-radius: 8px !important;
+}
+
+.el-input__wrapper:hover {
+  border-color: rgba(255, 255, 255, 0.3) !important;
+}
+
+.el-input__wrapper.is-focus {
+  border-color: #c41e3a !important;
+  box-shadow: 0 0 0 2px rgba(196, 30, 58, 0.2) !important;
+}
+
+.el-input__inner {
+  color: #fff !important;
+}
+
+.el-input__inner::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.el-textarea__inner {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+}
+
+.el-textarea__inner::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+.el-form-item__label {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.el-radio {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.el-radio__label {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.el-radio__input.is-checked .el-radio__inner {
+  background-color: #c41e3a !important;
+  border-color: #c41e3a !important;
+}
+
+.el-alert {
+  background: rgba(10, 10, 15, 0.6) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 12px !important;
+}
+
+.el-alert__title {
+  color: #fff !important;
+}
+
+.el-alert__description {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.el-dropdown-menu {
+  background: rgba(10, 10, 15, 0.9) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+}
+
+.el-dropdown-menu__item {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.el-dropdown-menu__item:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+
+.el-menu {
+  background: transparent !important;
+}
+
+.el-menu-item {
+  color: rgba(255, 255, 255, 0.8) !important;
+  border-radius: 8px !important;
+  margin: 4px 8px !important;
+}
+
+.el-menu-item:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #fff !important;
+}
+
+.el-menu-item.is-active {
+  background: rgba(196, 30, 58, 0.2) !important;
+  color: #c41e3a !important;
+}
+
+.el-tag {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+}
+
+.el-empty__description p {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.el-loading-mask {
+  background: rgba(0, 0, 0, 0.5) !important;
+  backdrop-filter: blur(4px) !important;
+}
+
+.el-dialog {
+  background: rgba(10, 10, 15, 0.9) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px !important;
+}
+
+.el-dialog__header {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.el-dialog__title {
+  color: #fff !important;
+}
+
+.el-dialog__body {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.el-select-dropdown {
+  background: rgba(10, 10, 15, 0.9) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.el-select-dropdown__item {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.el-select-dropdown__item:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+.el-picker-panel {
+  background: rgba(10, 10, 15, 0.9) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.el-tabs__item {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.el-tabs__item.is-active {
+  color: #c41e3a !important;
+}
+
+.el-tabs__active-bar {
+  background-color: #c41e3a !important;
+}
+
+.el-divider__text {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.el-upload-dragger {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border: 2px dashed rgba(255, 255, 255, 0.2) !important;
+  border-radius: 12px !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.el-upload-dragger:hover {
+  border-color: #c41e3a !important;
 }

@@ -58,10 +58,18 @@ async function detect() {
 </script>
 
 <style scoped>
+.detect-page {
+  padding: 40px;
+  min-height: calc(100vh - 64px);
+}
+
 .page-card {
-  border-radius: 12px;
-  min-width:890px;
-}.card-header {
+  border-radius: 16px;
+  background: rgba(10, 10, 15, 0.5) !important;
+  backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+.card-header {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -69,7 +77,13 @@ async function detect() {
 .card-title {
   font-size: 18px;
   font-weight: 600;
-  color: var(--jd-primary-dark);
+  color: #fff;
+}
+
+.desc {
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 20px;
+  font-size: 14px;
 }
 .preview {
   margin-top: 16px;

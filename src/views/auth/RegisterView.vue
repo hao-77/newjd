@@ -2,14 +2,13 @@
   <div class="auth-page">
     <div class="auth-card">
       <div class="auth-header">
-        <el-icon :size="48" color="#1565c0"><Lock /></el-icon>
         <h1>注册账号</h1>
-        <p>加入金盾卫士，守护每一笔交易</p>
+        <p class="subtitle">加入金盾卫士，守护每一笔交易</p>
       </div>
 
       <el-form ref="formRef" :model="form" :rules="rules" @submit.prevent="handleRegister">
         <el-form-item prop="email">
-          <el-input v-model="form.email" placeholder="邮箱" prefix-icon="Message" size="large" />
+          <el-input v-model="form.email" placeholder="邮箱" prefix-icon="Message" />
         </el-form-item>
         <el-form-item prop="password">
           <el-input
@@ -17,17 +16,18 @@
             type="password"
             placeholder="密码（6-16位）"
             prefix-icon="Lock"
-            size="large"
             show-password
           />
         </el-form-item>
         <el-form-item prop="code">
           <div class="code-row">
-            <el-input v-model="form.code" placeholder="验证码" prefix-icon="Key" size="large" />
-            <el-button :disabled="countdown > 0" @click="sendCode">获取验证码</el-button>
+            <el-input v-model="form.code" placeholder="验证码" prefix-icon="Key" />
+            <el-button :disabled="countdown > 0" @click="sendCode">
+              {{ countdown > 0 ? `${countdown}s` : '获取验证码' }}
+            </el-button>
           </div>
         </el-form-item>
-        <el-button type="primary" size="large" class="submit-btn" :loading="loading" native-type="submit">
+        <el-button type="primary" class="submit-btn" :loading="loading" native-type="submit">
           注册
         </el-button>
       </el-form>
@@ -104,42 +104,60 @@ async function handleRegister() {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #e3f2fd 0%, #1565c0 100%);
+  background: transparent;
   padding: 24px;
 }
 
 .auth-card {
   width: 100%;
   max-width: 420px;
-  background: #fff;
-  border-radius: 16px;
-  padding: 40px;
-  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.15);
+  background: rgba(10, 10, 15, 0.7);
+  backdrop-filter: blur(12px);
+  padding: 48px 40px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
 }
 
 .auth-header {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: 36px;
 }
 
-.auth-header h1 {
-  font-size: 28px;
-  color: var(--jd-primary-dark);
-  margin: 12px 0 4px;
+.auth-header h1,
+.auth-header .subtitle {
+  color: #fff;
 }
 
-.auth-header p {
-  color: #888;
-  font-size: 14px;
+.auth-header .subtitle {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.auth-footer {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.auth-footer a {
+  color: #c41e3a;
 }
 
 .submit-btn {
   width: 100%;
+  margin-top: 8px;
+  background: var(--jd-primary);
+  border: none;
+  border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.submit-btn:hover {
+  background: var(--jd-primary-light);
 }
 
 .code-row {
   display: flex;
-  gap: 8px;
+  gap: 12px;
   width: 100%;
 }
 
@@ -149,9 +167,9 @@ async function handleRegister() {
 
 .auth-footer {
   text-align: center;
-  margin-top: 24px;
+  margin-top: 32px;
   font-size: 14px;
-  color: #666;
+  color: var(--jd-text-light);
 }
 
 .auth-footer a {
